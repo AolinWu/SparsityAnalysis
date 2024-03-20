@@ -55,6 +55,7 @@ class Client:
     def __init__(self, cluster: str, db: str):
         self.cluster = cluster
         self.db = db
+        self.kcsb=KustoConnectionStringBuilder.with_aad_device_authentication(self.cluster)
 
     def get_cluster(self):
         return self.cluster
@@ -67,10 +68,6 @@ class Client:
 
     def set_db(self, new_db: str):
         self.db = new_db
-
-    @property
-    def kcsb(self):
-        return KustoConnectionStringBuilder.with_aad_device_authentication(self.cluster)
 
     def execute_query(self, query: str) -> KustoResponseDataSet:
         with KustoClient(self.kcsb) as client:
